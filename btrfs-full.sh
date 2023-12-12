@@ -31,8 +31,8 @@ partprobe "${DISK}"
 # Swap setup
 echo -e "\n${GRN}Swap setup...${NC}\n"
 
-mkswap "${DISK}"-part5
-swapon "${DISK}"-part5
+mkswap "${DISK}"3
+swapon "${DISK}"3
 
 # update pacman mirrolist
 echo -e "\n${GRN}Updating pacman mirrorlist...${NC}\n"
