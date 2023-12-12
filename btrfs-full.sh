@@ -11,7 +11,7 @@ echo -e "\n${GRN}Set variables...${NC}\n"
 
 DISK='/dev/sda' #'/dev/disk/by-id/ata-Hitachi_HDS5C3020BLE630_MCE7215P035WTN'
 MNT=/mnt
-SWAPSIZE=16
+SWAPSIZE=8
 RESERVE=1
 
 # create partitions
@@ -28,10 +28,19 @@ parted --script --align=optimal  "${DISK}" -- \
 
 partprobe "${DISK}"
 
-# create partitions
+# Swap setup
+echo -e "\n${GRN}Swap setup...${NC}\n"
+
+mkswap "${DISK}"-part5
+swapon "${DISK}"-part5
+
+# update pacman mirrolist
 echo -e "\n${GRN}Updating pacman mirrorlist...${NC}\n"
 
-reflector --country US --age 6 --sort rate --save /etc/pacman.d/mirrorlist 
+# reflector --country US --age 6 --sort rate --save /etc/pacman.d/mirrorlist 
+
+
+
 
 
 
