@@ -17,7 +17,7 @@ RESERVE=1
 # create partitions
 echo -e "\n${GRN}Create partitions...${NC}\n"
 
-parted --script --align=optimal  /dev/sda -- \
+parted --script --align=optimal  "${DISK}" -- \
     mklabel gpt \
     mkpart BIOS 1MiB 500MiB \
     mkpart archlinux 500MiB -$((SWAPSIZE + RESERVE))GiB \
@@ -25,6 +25,8 @@ parted --script --align=optimal  /dev/sda -- \
     set 1 bios_grub on \
     set 1 legacy_boot on \
     set 3 swap on
+
+partprobe "${DISK}"
 
 # create partitions
 echo -e "\n${GRN}Updating pacman mirrorlist...${NC}\n"
