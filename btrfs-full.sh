@@ -34,10 +34,49 @@ echo -e "\n${GRN}Swap setup...${NC}\n"
 mkswap "${DISK}"3
 swapon "${DISK}"3
 
-# update pacman mirrolist
+# Format partitions
+echo -e "\n${GRN}Format partitions...${NC}\n"
+
+mkfs.vfat "${DISK}"1
+mkfs.ext4 "${DISK}"2
+
+# Mount partitions
+echo -e "\n${GRN}Mount partitions...${NC}\n"
+
+mount "${DISK}"2 "${MNT}"
+mkdir "${MNT}"/home
+mkdir "${MNT}"/boot
+mount "${DISK}"1 "${MNT}/boot"
+
+
+# Update pacman mirrolist
 echo -e "\n${GRN}Updating pacman mirrorlist...${NC}\n"
 
 # reflector --country US --age 6 --sort rate --save /etc/pacman.d/mirrorlist 
+
+# Pacstrap packages to MNT
+echo -e "\n${GRN}Pacstrap packages to "${MNT}"...${NC}\n"
+
+pacstrap "${MNT}" base base-devel linux linux-headers linux-firmware grub efibootmgr openssh nano micro ansible git intel-ucode amd-ucode
+cp /etc/resolv.conf "${MNT}"/etc/resolv.conf
+
+# Generate fstab:
+echo -e "\n${GRN}Generate fstab...${NC}\n"
+
+genfstab -U -p "${MNT}" >> "${MNT}"/etc/fstab
+cat "${MNT}"/etc/fstab
+
+# Copy chroot-btrfs
+echo -e "\n${GRN}Copy chroot-btrfs to "${MNT}"...${NC}\n"
+
+cp ./chroot-btrfs.sh "${MNT}"/root
+
+# Run chroot-btrfs
+echo -e "\n${BBLU}Run chroot-btrfs...${NC}\n"
+
+arch-chroot "${MNT}" /usr/bin/env DISK="${DISK}" sh /root/chroot-btrfs.sh
+
+
 
 
 
