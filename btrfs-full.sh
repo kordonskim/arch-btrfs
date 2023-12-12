@@ -58,7 +58,8 @@ echo -e "\n${GRN}Updating pacman mirrorlist...${NC}\n"
 # Pacstrap packages to MNT
 echo -e "\n${GRN}Pacstrap packages to "${MNT}"...${NC}\n"
 
-pacstrap "${MNT}" base base-devel linux linux-headers linux-firmware grub efibootmgr openssh nano micro ansible git intel-ucode amd-ucode
+pacstrap "${MNT}" base base-devel linux linux-headers linux-firmware grub efibootmgr openssh nano micro ansible git 
+#intel-ucode amd-ucode
 cp /etc/resolv.conf "${MNT}"/etc/resolv.conf
 
 # Generate fstab:
