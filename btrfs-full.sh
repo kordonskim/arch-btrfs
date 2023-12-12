@@ -68,20 +68,20 @@ echo -e "\n${GRN}Generate fstab...${NC}\n"
 genfstab -U -p "${MNT}" >> "${MNT}"/etc/fstab
 cat "${MNT}"/etc/fstab
 
-# Copy chroot-btrfs
-echo -e "\n${GRN}Copy chroot-btrfs to "${MNT}"...${NC}\n"
+# Copy btrfs-chroot
+echo -e "\n${GRN}Copy btrfs-chroot to "${MNT}"...${NC}\n"
 
-cp ./chroot-btrfs.sh "${MNT}"/root
+cp ./btrfs-chroot.sh "${MNT}"/root
 
-# Run chroot-btrfs
-echo -e "\n${BBLU}Run chroot-btrfs...${NC}\n"
+# Run btrfs-chroot
+echo -e "\n${BBLU}Run btrfs-chroot...${NC}\n"
 
-arch-chroot "${MNT}" /usr/bin/env DISK="${DISK}" sh /root/chroot-btrfs.sh
+arch-chroot "${MNT}" /usr/bin/env DISK="${DISK}" sh /root/btrfs-chroot.sh
 
 # Cleanup
 echo -e "\n${GRN}Cleanup...${NC}\n"
 
-rm "${MNT}"/root/chroot-btrfs.sh 
+rm "${MNT}"/root/btrfs-chroot.sh 
 
 echo -e "\n${BRED}Run swapoff -a${NC}"
 echo -e "\n${BRED}Run umount -Rl /mnt${NC}"
