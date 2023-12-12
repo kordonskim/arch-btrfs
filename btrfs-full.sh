@@ -1,11 +1,21 @@
 #!/bin/bash
 set -e
 
+GRN='\033[0;32m'
+NC='\033[0m'
+BBLU='\033[1;34m'
+BRED='\033[1;31m'
+
+# Setting variables
+echo -e "\n${GRN}Set variables...${NC}\n"
+
 DISK='/dev/sda' #'/dev/disk/by-id/ata-Hitachi_HDS5C3020BLE630_MCE7215P035WTN'
 MNT=/mnt
 SWAPSIZE=16
 RESERVE=1
 
+# create partitions
+echo -e "\n${GRN}Create partitions...${NC}\n"
 
 parted --script --align=optimal  /dev/sda -- \
     mklabel gpt \
@@ -16,6 +26,10 @@ parted --script --align=optimal  /dev/sda -- \
     set 1 legacy_boot on \
     set 3 swap on
 
+# create partitions
+echo -e "\n${GRN}Updating pacman mirrorlist...${NC}\n"
 
 reflector --country US --age 6 --sort rate --save /etc/pacman.d/mirrorlist 
+
+
 
