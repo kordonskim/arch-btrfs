@@ -27,13 +27,21 @@ systemctl enable systemd-timesyncd
 systemctl enable systemd-networkd
 systemctl enable sshd
 
-# Install GRUB
-echo -e "\n${GRN}Install GRUB...${NC}\n"
+# # Install and configure syslinux
+echo -e "\n${GRN}Configure syslinux...${NC}\n"
 
-mkinitcpio -p linux
-pacman -S grub
-grub-install /dev/sda
-grub-mkconfig -o /boot/grub/grub.cfg
+syslinux-install_update -i -a -m
+
+sed -i 's|TIMEOUT 50|TIMEOUT 30|' /boot/syslinux/syslinux.cfg
+sed -i 's|initramfs-linux.img|intel-ucode.img,../initramfs-linux.img|' /boot/syslinux/syslinux.cfg
+
+# # Install GRUB
+# echo -e "\n${GRN}Install GRUB...${NC}\n"
+
+# mkinitcpio -p linux
+# pacman -S grub
+# grub-install /dev/sda
+# grub-mkconfig -o /boot/grub/grub.cfg
 
 # Adding user 
 echo -e "\n${GRN}Adding user mk...${NC}\n"
