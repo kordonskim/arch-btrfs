@@ -1,3 +1,8 @@
+GRN='\033[0;32m'
+NC='\033[0m'
+BBLU='\033[1;34m'
+BRED='\033[1;31m'
+
 # Configure pacman
 # echo -e "\n${GRN}Configure pacman...${NC}\n"\
 
