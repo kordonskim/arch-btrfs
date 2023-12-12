@@ -53,6 +53,7 @@ mount "${DISK}"1 "${MNT}/boot"
 echo -e "\n${GRN}Updating pacman mirrorlist...${NC}\n"
 
 # reflector --country US --age 6 --sort rate --save /etc/pacman.d/mirrorlist 
+# pacman -Syy
 
 # Pacstrap packages to MNT
 echo -e "\n${GRN}Pacstrap packages to "${MNT}"...${NC}\n"
@@ -75,6 +76,19 @@ cp ./chroot-btrfs.sh "${MNT}"/root
 echo -e "\n${BBLU}Run chroot-btrfs...${NC}\n"
 
 arch-chroot "${MNT}" /usr/bin/env DISK="${DISK}" sh /root/chroot-btrfs.sh
+
+# Cleanup
+echo -e "\n${GRN}Cleanup...${NC}\n"
+
+rm "${MNT}"/root/chroot-btrfs.sh 
+
+echo -e "\n${BRED}Run swapoff -a${NC}"
+echo -e "\n${BRED}Run umount -Rl /mnt${NC}"
+# swapoff -a
+# umount -Rl "${MNT}"
+# zpool export -a
+
+echo -e "\n${GRN}Done...${NC}\n"
 
 
 

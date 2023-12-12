@@ -1,8 +1,8 @@
 # Configure pacman
-echo -e "\n${GRN}Configure pacman...${NC}\n"\
+# echo -e "\n${GRN}Configure pacman...${NC}\n"\
 
-sed -i 's|#Include = /etc/pacman.d/mirrorlist|PasswordAutInclude = /etc/pacman.d/mirrorlistentication|' /etc/pacman.d/mirrorlist
-pacman -Sy
+# sed -i 's|#Include = /etc/pacman.d/mirrorlist|Include = /etc/pacman.d/mirrorlist|' /etc/pacman.conf
+# pacman -Sy
 
 # Set hostname
 echo -e "\n${GRN}Set hostname...${NC}\n"
@@ -26,3 +26,22 @@ sed -i 's|#PasswordAuthentication|PasswordAuthentication|' /etc/ssh/sshd_config
 systemctl enable systemd-timesyncd
 systemctl enable systemd-networkd
 systemctl enable sshd
+
+# Install GRUB
+echo -e "\n${GRN}Install GRUB...${NC}\n"
+
+mkinitcpio -p linux
+pacman -S grub
+grub-install /dev/sda
+grub-mkconfig -o /boot/grub/grub.cfg
+
+# Adding user 
+echo -e "\n${GRN}Adding user mk...${NC}\n"
+
+# groupadd sudo
+useradd -m -G root,wheel mk
+
+echo -e "\n${ORG}Changing password for mk:${NC}\n"
+passwd mk
+echo -e "\n${ORG}Changing password for root:${NC}\n"
+passwd root
